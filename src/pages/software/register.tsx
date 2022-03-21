@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
@@ -17,6 +17,8 @@ export const SoftwareRegisterPage: React.VFC = () => {
 
     const { id } = useParams();
 
+    const navigate = useNavigate();
+
     const { register, handleSubmit } = useForm<Input>();
 
     const { softwares, upsertSoftware } = useSoftwares();
@@ -33,9 +35,10 @@ export const SoftwareRegisterPage: React.VFC = () => {
         <Container>
             <Stack spacing={2}>
                 <TextField {...register("name", {value: software.name})} />
-                <TextField multiline rows={3} {...register("description", {value: software.description})} />
+                <TextField multiline rows={10} {...register("description", {value: software.description})} />
             </Stack>
             <Button onClick={handleSubmit(onRegister)}>登録</Button>
+            <Button onClick={() => navigate("/softwares")}>戻る</Button>
             <Snackbar open={open} message="登録しました" onClose={off} />
         </Container>
     );

@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { RecoilRoot } from "recoil";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
@@ -7,19 +8,15 @@ import { SoftwarePage } from "./pages/software";
 import { SoftwareSearchPage } from "./pages/software/search";
 import { SoftwareRegisterPage } from "./pages/software/register";
 import { ReviewPage } from "./pages/review";
-
 import { theme } from "./theme";
-
-import { SWRConfig } from "swr";
-
-import { Suspense } from "react";
 
 export const App: React.VFC = () => {
 
     return (
         <RecoilRoot>
+            
             <ThemeProvider theme={theme}>
-                <SWRConfig value={{fetcher: (url: string) => fetch(url).then(res => res.json())}}>
+            <Suspense fallback="loading">
                     <BrowserRouter>
                         <Header />
                         <Routes>
@@ -28,10 +25,10 @@ export const App: React.VFC = () => {
                             <Route path="/softwares/search" element={<SoftwareSearchPage />} />
                             <Route path="/softwares/register" element={<Navigate to="/softwares" replace />} />
                             <Route path="/softwares/register/:id" element={<SoftwareRegisterPage />} />
-                            <Route path="/reviews" element={<ReviewPage />} />
+                            <Route path="/reviews" element={<Suspense fallback={<p>loading</p>}><ReviewPage /></Suspense>} />
                         </Routes>
                     </BrowserRouter>
-                </SWRConfig>
+                    </Suspense>
             </ThemeProvider>
         </RecoilRoot>
     );

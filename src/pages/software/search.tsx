@@ -1,31 +1,31 @@
-import { useState } from "react";
-import useSWR from "swr";
-
+import { useForm, SubmitHandler } from "react-hook-form";
+import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
 import { useSoftwares } from "../../hooks/software";
+import { useItunesSoftwares } from "../../hooks/itunes-software";
+
 
 export const SoftwareSearchPage: React.VFC = () => {
 
-    const [term, setTerm] = useState<string>("電車");
-
-    const { data, error } = useSWR(`https://itunes.apple.com/search?term=${encodeURI(term)}&media=software&entity=software&country=jp&lang=ja_jp`);
-
     const { softwares, upsertSoftware, deleteSoftware } = useSoftwares();
+    const {itunes_softwares, searchItunesSoftwares } = useItunesSoftwares();
+
+    const { register, handleSubmit } = useForm<SearchItunesSoftwareInput>();
+
+    const onSearchSubmit: SubmitHandler<SearchItunesSoftwareInput > = (data) => {
+        searchItunesSoftwares(data.term);
+    }
 
     return (
 
         <>
-            {data !== undefined && (
+            <TextField {...register("term")} />
+            <Button onClick={handleSubmit(onSearchSubmit)}>検索</Button>
+            {itunes_softwares.map(itunes_software => 
                 <>
-                    {data.results.map((result: any) => 
-                        <>
-                            <p>{result.trackName}</p>
-                            {/*<p>{result.description}</p>*/}
-                            <Button onClick={() => upsertSoftware(result.trackName, result.description, result.trackId)}>Fav</Button>
-                            {/*!(result.trackId in softwares) && <Button onClick={() => deleteSoftware(result.id)}>Delete</Button>*/}
-                        </>    
-                    )}
+                    <p>{itunes_software.name}</p>
+                    <Button onClick={() => upsertSoftware(itunes_software.name, itunes_software.description, itunes_software.id)}>Fav</Button>    
                 </>
             )}
         </>

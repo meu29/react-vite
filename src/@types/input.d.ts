@@ -1,0 +1,3 @@
+type SearchItunesSoftwareInput = {
+    term: string;
+}
