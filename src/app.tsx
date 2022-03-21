@@ -6,10 +6,13 @@ import { IndexPage } from "./pages";
 import { SoftwarePage } from "./pages/software";
 import { SoftwareSearchPage } from "./pages/software/search";
 import { SoftwareRegisterPage } from "./pages/software/register";
+import { ReviewPage } from "./pages/review";
 
 import { theme } from "./theme";
 
 import { SWRConfig } from "swr";
+
+import { Suspense } from "react";
 
 export const App: React.VFC = () => {
 
@@ -25,6 +28,7 @@ export const App: React.VFC = () => {
                             <Route path="/softwares/search" element={<SoftwareSearchPage />} />
                             <Route path="/softwares/register" element={<Navigate to="/softwares" replace />} />
                             <Route path="/softwares/register/:id" element={<SoftwareRegisterPage />} />
+                            <Route path="/reviews" element={<ReviewPage />} />
                         </Routes>
                     </BrowserRouter>
                 </SWRConfig>
