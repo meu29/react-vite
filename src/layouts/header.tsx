@@ -13,6 +13,12 @@ export const Header: React.VFC = () => {
                     <Link to="/">
                         <Typography variant="h6">タイトル未定</Typography>
                     </Link>
+                    <Link to="softwares">
+                        <Typography>一覧</Typography>
+                    </Link>
+                    <Link to="softwares/search">
+                        <Typography>検索</Typography>
+                    </Link>
                 </Toolbar>
             </AppBar>
         </Box>
